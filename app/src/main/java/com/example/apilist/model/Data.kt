@@ -1,5 +1,7 @@
 package com.example.apilist.model
 
+import java.util.UUID
+
 data class Data(
     val abilities: List<Ability>,
     val background: String,
@@ -11,4 +13,5 @@ data class Data(
     val fullPortrait: String,
     val isPlayableCharacter: Boolean,
     val role: Role,
+    val uuid: String
 )

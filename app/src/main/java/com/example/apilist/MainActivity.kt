@@ -7,15 +7,17 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.apilist.navigation.Routes
 import com.example.apilist.ui.theme.APIListTheme
+import com.example.apilist.view.DetailScreen
 import com.example.apilist.view.SearchScreen
 import com.example.apilist.viewModel.MyViewModel
 
@@ -35,6 +37,16 @@ class MainActivity : ComponentActivity() {
                         navController = navigationController,
                         startDestination = Routes.SearchScreen.route) {
                         composable(Routes.SearchScreen.route) { SearchScreen(navigationController, myViewModel) }
+                        composable(
+                            Routes.DetailScreen.route,
+                            arguments = listOf(
+                                navArgument("uuid") {type = NavType.StringType})) {
+                                backStackEntry ->
+                            DetailScreen(
+                                backStackEntry.arguments?.getString("uuid").orEmpty(),
+                                navigationController, myViewModel
+                            )
+                        }
                     }
                 }
             }

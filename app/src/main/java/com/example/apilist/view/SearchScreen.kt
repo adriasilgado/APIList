@@ -2,13 +2,10 @@ package com.example.apilist.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +14,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -28,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -44,11 +44,11 @@ import com.example.apilist.navigation.Routes
 import com.example.apilist.viewModel.MyViewModel
 @Composable
 fun SearchScreen(navController: NavController, myViewModel: MyViewModel) {
-    MyRecyclerView(myViewModel)
+    MyRecyclerView(navController, myViewModel)
 }
 
 @Composable
-fun MyRecyclerView(myViewModel: MyViewModel) {
+fun MyRecyclerView(navController: NavController, myViewModel: MyViewModel) {
     val showLoading: Boolean by myViewModel.loading.observeAsState(true)
     val characters: ValorantAgentes by myViewModel.characters.observeAsState(ValorantAgentes(emptyList(), 0))
     myViewModel.getCharacters()
@@ -61,7 +61,7 @@ fun MyRecyclerView(myViewModel: MyViewModel) {
     else{
         LazyColumn() {
             items(characters.data.size) {
-                CharacterItem(characters.data[it])
+                CharacterItem(characters.data[it], myViewModel, navController)
             }
 
         }
@@ -70,7 +70,7 @@ fun MyRecyclerView(myViewModel: MyViewModel) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CharacterItem(character: Data) {
+fun CharacterItem(character: Data, myViewModel: MyViewModel, navController: NavController) {
     if (character.isPlayableCharacter) {
         Card(
             border = BorderStroke(2.dp, Color.LightGray),
@@ -80,6 +80,7 @@ fun CharacterItem(character: Data) {
                 .fillMaxWidth()
                 .height(150.dp)
                 .padding(8.dp)
+                .clickable { navController.navigate(Routes.DetailScreen.createRoute(character.uuid)) }
         ) {
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -114,6 +115,18 @@ fun CharacterItem(character: Data) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MyBottomBar() {
+    BottomNavigation(backgroundColor = Color.Red, contentColor = Color.White) {
+        BottomNavigationItem(
+            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+            label = { Text("Home") },
+            selected = true,
+            onClick = { /*TODO*/ }
+        )
     }
 }
 
