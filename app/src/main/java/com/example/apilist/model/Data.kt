@@ -5,8 +5,6 @@ import java.util.UUID
 data class Data(
     val abilities: List<Ability>,
     val background: String,
-    val backgroundGradientColors: List<String>,
-    val bustPortrait: String,
     val description: String,
     val displayIcon: String,
     val displayName: String,

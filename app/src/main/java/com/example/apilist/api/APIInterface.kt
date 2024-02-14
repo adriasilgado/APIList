@@ -1,5 +1,6 @@
 package com.example.apilist.api
 
+import com.example.apilist.model.Agente
 import com.example.apilist.model.Data
 import com.example.apilist.model.ValorantAgentes
 import okhttp3.OkHttpClient
@@ -16,7 +17,7 @@ interface APIInterface {
     suspend fun getCharacters(): Response<ValorantAgentes>
 
     @GET("agents/{uuid}")
-    suspend fun getCharacter(@Path ("uuid") uuid:String):Response<Data>
+    suspend fun getCharacter(@Path ("uuid") uuid:String):Response<Agente>
 
     companion object {
         val BASE_URL = "https://valorant-api.com/v1/"

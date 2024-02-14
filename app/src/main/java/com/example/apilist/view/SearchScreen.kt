@@ -41,6 +41,7 @@ import com.example.apilist.R
 import com.example.apilist.model.Data
 import com.example.apilist.model.ValorantAgentes
 import com.example.apilist.navigation.Routes
+import com.example.apilist.valo
 import com.example.apilist.viewModel.MyViewModel
 @Composable
 fun SearchScreen(navController: NavController, myViewModel: MyViewModel) {
@@ -110,7 +111,8 @@ fun CharacterItem(character: Data, myViewModel: MyViewModel, navController: NavC
                         text = character.displayName,
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.align(Alignment.CenterVertically)
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        fontFamily = valo
                     )
                 }
             }
