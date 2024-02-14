@@ -3,6 +3,7 @@ package com.example.apilist.view
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -60,7 +61,10 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
     val agent: Agente? by myViewModel.agent.observeAsState()
 
     if (agent != null) {
-        Column (horizontalAlignment = Alignment.CenterHorizontally){
+        Column (horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+            .background(Color(255 - 222, 48, 79))
+            .fillMaxSize()
+        ){
             Box(
                 modifier = Modifier
                     .fillMaxHeight(0.4f)

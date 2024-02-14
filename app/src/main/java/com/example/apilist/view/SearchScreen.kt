@@ -11,19 +11,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AlertDialogDefaults.titleContentColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -43,9 +55,17 @@ import com.example.apilist.model.ValorantAgentes
 import com.example.apilist.navigation.Routes
 import com.example.apilist.valo
 import com.example.apilist.viewModel.MyViewModel
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(navController: NavController, myViewModel: MyViewModel) {
-    MyRecyclerView(navController, myViewModel)
+    Scaffold(topBar = { MyTopAppBar()},bottomBar = { MyBottomBar()}) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)) {
+            MyRecyclerView(navController, myViewModel)
+        }
+    }
 }
 
 @Composable
@@ -120,12 +140,43 @@ fun CharacterItem(character: Data, myViewModel: MyViewModel, navController: NavC
     }
 }
 
+
+@Composable
+fun MyTopAppBar() {
+    TopAppBar(
+        title = {  },
+        backgroundColor = Color(222,48,79),
+        contentColor = Color.White,
+        elevation = AppBarDefaults.TopAppBarElevation,
+        navigationIcon = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+            }
+        },
+        actions = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+            }
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+            }
+        },
+        modifier = Modifier.statusBarsPadding()
+    )
+}
+
 @Composable
 fun MyBottomBar() {
-    BottomNavigation(backgroundColor = Color.Red, contentColor = Color.White) {
+    BottomNavigation(backgroundColor = Color(222,48,79), contentColor = Color.White) {
         BottomNavigationItem(
             icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-            label = { Text("Home") },
+            label = { Text("HoMe", fontFamily = valo) },
+            selected = true,
+            onClick = { /*TODO*/ }
+        )
+        BottomNavigationItem(
+            icon = { Icon(Icons.Filled.Star, contentDescription = "Star") },
+            label = { Text("FaVourites", fontFamily = valo) },
             selected = true,
             onClick = { /*TODO*/ }
         )
