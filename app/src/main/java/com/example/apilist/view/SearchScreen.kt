@@ -47,18 +47,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.apilist.R
 import com.example.apilist.model.Data
 import com.example.apilist.model.ValorantAgentes
+import com.example.apilist.navigation.BottomNavigation
 import com.example.apilist.navigation.Routes
 import com.example.apilist.valo
 import com.example.apilist.viewModel.MyViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(navController: NavController, myViewModel: MyViewModel) {
-    Scaffold(topBar = { MyTopAppBar()},bottomBar = { MyBottomBar()}) { paddingValues ->
+    Scaffold(topBar = { MyTopAppBar()},bottomBar = { MyBottomBar(navController)}) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -82,7 +84,7 @@ fun MyRecyclerView(navController: NavController, myViewModel: MyViewModel) {
     else{
         LazyColumn() {
             items(characters.data.size) {
-                CharacterItem(characters.data[it], myViewModel, navController)
+                CharacterItem(characters.data[it], navController)
             }
 
         }
@@ -91,7 +93,7 @@ fun MyRecyclerView(navController: NavController, myViewModel: MyViewModel) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CharacterItem(character: Data, myViewModel: MyViewModel, navController: NavController) {
+fun CharacterItem(character: Data, navController: NavController) {
     if (character.isPlayableCharacter) {
         Card(
             border = BorderStroke(2.dp, Color.LightGray),
@@ -166,20 +168,28 @@ fun MyTopAppBar() {
 }
 
 @Composable
-fun MyBottomBar() {
-    BottomNavigation(backgroundColor = Color(222,48,79), contentColor = Color.White) {
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-            label = { Text("HoMe", fontFamily = valo) },
-            selected = true,
-            onClick = { /*TODO*/ }
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.Star, contentDescription = "Star") },
-            label = { Text("FaVourites", fontFamily = valo) },
-            selected = true,
-            onClick = { /*TODO*/ }
-        )
+fun MyBottomBar(navController: NavController) {
+    val bottomIcons = listOf(BottomNavigation.Home, BottomNavigation.Favourites)
+    BottomNavigation(backgroundColor = Color(222,48,79)) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        bottomIcons.forEach{
+            println("RUTA: $currentRoute")
+            BottomNavigationItem(
+                icon = { Icon(it.icon, contentDescription = it.label) },
+                label = { Text(it.label, fontFamily = valo, color = Color.Black)},
+                selected = currentRoute == it.route,
+                selectedContentColor = Color.Black,
+                unselectedContentColor = Color.White,
+                alwaysShowLabel = currentRoute == it.route,
+                onClick = {
+                    if (currentRoute != it.route) {
+                        navController.navigate(it.route)
+                    }
+                }
+            )
+        }
+
     }
 }
 
