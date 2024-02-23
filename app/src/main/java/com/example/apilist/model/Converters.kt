@@ -8,7 +8,7 @@ class Converters {
         var result:String = ""
         for (i in 0 until abilities.size - 1) {
             result += abilities[i].abilityToString()
-            result += "/"
+            result += "+"
         }
         result += abilities[abilities.size - 1].abilityToString()
         println(result)
@@ -17,11 +17,12 @@ class Converters {
 
     @TypeConverter
     fun fromStringToListAbility(abilities:String):List<Ability> {
-        var ability = abilities.split("/")
+        var ability = abilities.split("+")
         var listAbilities:MutableList<Ability> = mutableListOf()
         for (i in 0 until ability.size) {
-            val ivan = ability[i].split("-")
-            listAbilities.add(Ability(ivan[0], ivan[1], ivan[2]))
+            val propiedad = ability[i].split("-")
+            println("lista: $propiedad")
+            listAbilities.add(Ability(propiedad[0], propiedad[1], propiedad[2]))
         }
         return listAbilities
     }

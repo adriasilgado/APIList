@@ -33,8 +33,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
@@ -83,105 +85,115 @@ import com.example.apilist.viewModel.MyViewModel
 fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyViewModel) {
     myViewModel.getCharacter(uuid)
     val agent: Agente? by myViewModel.agent.observeAsState()
-    Scaffold(topBar = { MyTopAppBarDetail() },bottomBar = { MyBottomBarDetail(navController) }) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)) {
-            if (agent != null) {
-                Column (horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-                    .background(Color(255 - 222, 48, 79))
+    if (agent != null) {
+        Scaffold(topBar = { MyTopAppBarDetail(myViewModel, agent) },bottomBar = { MyBottomBarDetail(navController) }) { paddingValues ->
+            Box(
+                modifier = Modifier
                     .fillMaxSize()
-                ){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight(0.4f)
-                            .fillMaxWidth()
-                            .padding(top = 10.dp)
-                    ) {
-                        GlideImage(
-                            model = agent!!.data.background,
-                            contentDescription = "Name",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize()
+                    .padding(paddingValues)) {
+                if (agent != null) {
+                    Column (horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+                        .background(Color(255 - 222, 48, 79))
+                        .fillMaxSize()
+                    ){
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight(0.4f)
+                                .fillMaxWidth()
+                                .padding(top = 10.dp)
+                        ) {
+                            GlideImage(
+                                model = agent!!.data.background,
+                                contentDescription = "Name",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                            GlideImage(
+                                model = agent!!.data.fullPortrait,
+                                contentDescription = "Agent",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                        Text(
+                            text = agent!!.data.displayName,
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center,
+                            fontFamily = valo,
+                            modifier = Modifier.padding(top = 4.dp),
+                            fontSize = 30.sp
                         )
-                        GlideImage(
-                            model = agent!!.data.fullPortrait,
-                            contentDescription = "Agent",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize()
+                        Text(
+                            text = agent!!.data.description,
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center,
+                            fontFamily = arabic,
+                            fontSize = 17.sp,
                         )
-                    }
-                    Text(
-                        text = agent!!.data.displayName,
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center,
-                        fontFamily = valo,
-                        modifier = Modifier.padding(top = 4.dp),
-                        fontSize = 30.sp
-                    )
-                    Text(
-                        text = agent!!.data.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center,
-                        fontFamily = arabic,
-                        fontSize = 17.sp,
-                    )
-                    val state = rememberLazyListState()
-                    LazyRow (state = state, flingBehavior = rememberSnapFlingBehavior(lazyListState = state)){
-                        items(4) {
-                            Card(
-                                colors = CardDefaults.cardColors(Color.Transparent),
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .width(400.dp)
-                                    .padding(12.dp))
+                        val state = rememberLazyListState()
+                        LazyRow (state = state, flingBehavior = rememberSnapFlingBehavior(lazyListState = state)){
+                            items(4) {
+                                Card(
+                                    colors = CardDefaults.cardColors(Color.Transparent),
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .width(400.dp)
+                                        .padding(12.dp))
                                 {
                                     Box(
                                         modifier = Modifier.fillMaxSize()
                                     ) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxSize(),
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        GlideImage(
-                                            model = agent!!.data.abilities[it].displayIcon,
-                                            contentDescription = "Icon Ability",
-                                            contentScale = ContentScale.Crop,
+                                        Column(
                                             modifier = Modifier
-                                                .fillMaxHeight(0.4f)
-                                                .fillMaxWidth()
-                                                .padding(horizontal = 142.dp)
-                                        )
-                                        Text(
-                                            text = agent!!.data.abilities[it].displayName,
-                                            style = MaterialTheme.typography.bodyLarge,
-                                            textAlign = TextAlign.Center,
-                                            fontFamily = valo,
-                                            modifier = Modifier.padding(top = 4.dp),
-                                            fontSize = 20.sp)
-                                        Text(
-                                            text = agent!!.data.abilities[it].description,
-                                            overflow = TextOverflow.Ellipsis,
-                                            modifier = Modifier.fillMaxWidth()
-                                        )
+                                                .fillMaxSize(),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            GlideImage(
+                                                model = agent!!.data.abilities[it].displayIcon,
+                                                contentDescription = "Icon Ability",
+                                                contentScale = ContentScale.Crop,
+                                                modifier = Modifier
+                                                    .fillMaxHeight(0.4f)
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 142.dp)
+                                            )
+                                            Text(
+                                                text = agent!!.data.abilities[it].displayName,
+                                                style = MaterialTheme.typography.bodyLarge,
+                                                textAlign = TextAlign.Center,
+                                                fontFamily = valo,
+                                                modifier = Modifier.padding(top = 4.dp),
+                                                fontSize = 20.sp)
+                                            Text(
+                                                text = agent!!.data.abilities[it].description,
+                                                overflow = TextOverflow.Ellipsis,
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                } else {
+                    CircularProgressIndicator(modifier = Modifier.size(32.dp))
                 }
-            } else {
-                CircularProgressIndicator(modifier = Modifier.size(32.dp))
             }
         }
+    }
+    else {
+        CircularProgressIndicator(modifier = Modifier.size(32.dp))
     }
 }
 
 @Composable
-fun MyTopAppBarDetail() {
-    var like by remember { mutableStateOf(false) }
+fun MyTopAppBarDetail(myViewModel: MyViewModel, agent:Agente?) {
+    val esFav:Boolean by myViewModel.isFavourite.observeAsState(false)
+    println(agent)
+    var agente:Data = Data(agent!!.data.abilities,agent!!.data.background, agent!!.data.description, agent!!.data.displayIcon,
+        agent!!.data.displayName, agent!!.data.fullPortrait, agent!!.data.isPlayableCharacter, agent!!.data.role, agent!!.data.uuid)
+    if (agente != null) println("agente: $agente")
+    myViewModel.isFavorite(agente)
     TopAppBar(
         title = {  },
         backgroundColor = Color(222,48,79),
@@ -189,12 +201,16 @@ fun MyTopAppBarDetail() {
         elevation = AppBarDefaults.TopAppBarElevation,
         navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },
         actions = {
-            IconButton(onClick = { like = !like }) {
-                Icon(imageVector = if (like) Icons.Default.FavoriteBorder else Icons.Default.FavoriteBorder,
+            IconButton(onClick = {
+                myViewModel.changeFavourite()
+                if (esFav) myViewModel.saveAsFavourite(agente)
+                else myViewModel.deleteFavourite(agente)
+            }) {
+                Icon(imageVector = if (esFav) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Like")
             }
         },

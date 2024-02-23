@@ -23,6 +23,7 @@ import androidx.navigation.navArgument
 import com.example.apilist.navigation.Routes
 import com.example.apilist.ui.theme.APIListTheme
 import com.example.apilist.view.DetailScreen
+import com.example.apilist.view.FavouritesScreen
 import com.example.apilist.view.SearchScreen
 import com.example.apilist.viewModel.MyViewModel
 
@@ -55,6 +56,7 @@ class MainActivity : ComponentActivity() {
                                 navigationController, myViewModel
                             )
                         }
+                        composable(Routes.FavouritesScreen.route) { FavouritesScreen(navigationController, myViewModel) }
                     }
                 }
             }

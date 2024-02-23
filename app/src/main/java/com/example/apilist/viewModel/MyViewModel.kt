@@ -21,6 +21,10 @@ class MyViewModel: ViewModel() {
     val characters = _characters
     private val _agent = MutableLiveData<Agente>()
     val agent = _agent
+    private val _isFavourite = MutableLiveData(false)
+    val isFavourite = _isFavourite
+    private val _favourites = MutableLiveData<MutableList<Data>>()
+    val favourites = _favourites
 
     fun getCharacters(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -52,4 +56,38 @@ class MyViewModel: ViewModel() {
         }
     }
 
+    fun getFavourites() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getFavourites()
+            withContext(Dispatchers.Main) {
+                _favourites.value = response
+                _loading.value = false
+            }
+        }
+    }
+
+    fun isFavorite(agente: Data) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.isFavourite(agente)
+            withContext(Dispatchers.Main) {
+                _isFavourite.value = response
+            }
+        }
+    }
+
+    fun saveAsFavourite(agente: Data) {
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.saveAsFavourite(agente)
+        }
+    }
+
+    fun deleteFavourite(agente: Data) {
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.deleteFavourite(agente)
+        }
+    }
+
+    fun changeFavourite() {
+        _isFavourite.value = !_isFavourite.value!!
+    }
 }

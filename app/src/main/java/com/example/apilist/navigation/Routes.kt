@@ -5,4 +5,5 @@ sealed class Routes(val route: String){
     object DetailScreen:Routes("detail_screen/{uuid}") {
         fun createRoute(uuid: String) = "detail_screen/$uuid"
     }
+    object FavouritesScreen:Routes("favourites_screen")
 }
