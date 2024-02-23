@@ -200,7 +200,7 @@ fun MyTopAppBarDetail(myViewModel: MyViewModel, agent:Agente?) {
         contentColor = Color.White,
         elevation = AppBarDefaults.TopAppBarElevation,
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { Routes.SearchScreen.route }) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },

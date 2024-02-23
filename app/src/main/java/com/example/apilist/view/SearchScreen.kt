@@ -151,11 +151,6 @@ fun MyTopAppBar() {
         backgroundColor = Color(222,48,79),
         contentColor = Color.White,
         elevation = AppBarDefaults.TopAppBarElevation,
-        navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-            }
-        },
         actions = {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")

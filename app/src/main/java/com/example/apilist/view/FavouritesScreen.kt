@@ -3,8 +3,16 @@ package com.example.apilist.view
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -18,12 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apilist.model.Data
 import com.example.apilist.model.ValorantAgentes
+import com.example.apilist.navigation.Routes
 import com.example.apilist.viewModel.MyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavouritesScreen(navController: NavController, myViewModel: MyViewModel) {
-    Scaffold(topBar = { MyTopAppBar()},bottomBar = { MyBottomBar(navController)}) { paddingValues ->
+    Scaffold(topBar = { MyTopAppBarFav() },bottomBar = { MyBottomBar(navController)}) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -48,6 +57,18 @@ fun FavouritesScreen(navController: NavController, myViewModel: MyViewModel) {
     }
 }
 
+@Composable
 fun MyTopAppBarFav(){
-
+    TopAppBar(
+        title = {  },
+        backgroundColor = Color(222,48,79),
+        contentColor = Color.White,
+        elevation = AppBarDefaults.TopAppBarElevation,
+        navigationIcon = {
+            IconButton(onClick = { Routes.DetailScreen.route }) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            }
+        },
+        modifier = Modifier.statusBarsPadding()
+    )
 }
