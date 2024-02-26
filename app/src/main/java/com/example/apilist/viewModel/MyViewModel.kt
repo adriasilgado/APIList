@@ -25,6 +25,8 @@ class MyViewModel: ViewModel() {
     val isFavourite = _isFavourite
     private val _favourites = MutableLiveData<MutableList<Data>>()
     val favourites = _favourites
+    private val _searchText = MutableLiveData<String>()
+    val searchText = _searchText
 
     fun getCharacters(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -89,5 +91,9 @@ class MyViewModel: ViewModel() {
 
     fun changeFavourite() {
         _isFavourite.value = !_isFavourite.value!!
+    }
+
+    fun onSearchTextChange(it:String) {
+
     }
 }

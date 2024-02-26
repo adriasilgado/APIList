@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
@@ -24,6 +26,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
@@ -35,13 +38,18 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -61,7 +69,7 @@ import com.example.apilist.viewModel.MyViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(navController: NavController, myViewModel: MyViewModel) {
-    Scaffold(topBar = { MyTopAppBar()},bottomBar = { MyBottomBar(navController)}) { paddingValues ->
+    Scaffold(topBar = { MyTopAppBar(myViewModel)},bottomBar = { MyBottomBar(navController)}) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -145,14 +153,18 @@ fun CharacterItem(character: Data, navController: NavController) {
 
 
 @Composable
-fun MyTopAppBar() {
+fun MyTopAppBar(myViewModel: MyViewModel) {
+    var esconder by remember { mutableStateOf(true) }
     TopAppBar(
         title = {  },
         backgroundColor = Color(222,48,79),
         contentColor = Color.White,
         elevation = AppBarDefaults.TopAppBarElevation,
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            if (!esconder) {
+                MySearchBar(myViewModel)
+            }
+            IconButton(onClick = { esconder = !esconder }) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
             }
         },
@@ -182,6 +194,24 @@ fun MyBottomBar(navController: NavController) {
                 }
             )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MySearchBar (myViewModel: MyViewModel) {
+    val searchText by myViewModel.searchText.observeAsState("")
+    SearchBar(
+        query = searchText,
+        onQueryChange = { myViewModel.onSearchTextChange(it) },
+        onSearch = { myViewModel.onSearchTextChange(it) },
+        active = true,
+        leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")},
+        placeholder = { Text("What are you looking for?") },
+        onActiveChange = {}, modifier = Modifier
+            .fillMaxHeight(0.8f)
+            .fillMaxWidth(0.85f)
+            .clip(CircleShape)) {
     }
 }
 
