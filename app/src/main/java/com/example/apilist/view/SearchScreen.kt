@@ -182,7 +182,6 @@ fun MyBottomBar(navController: NavController) {
                 }
             )
         }
-
     }
 }
 

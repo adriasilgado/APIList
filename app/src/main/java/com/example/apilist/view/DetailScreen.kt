@@ -1,5 +1,6 @@
 package com.example.apilist.view
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -188,6 +189,7 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
 
 @Composable
 fun MyTopAppBarDetail(myViewModel: MyViewModel, agent:Agente?) {
+    val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val esFav:Boolean by myViewModel.isFavourite.observeAsState(false)
     println(agent)
     var agente:Data = Data(agent!!.data.abilities,agent!!.data.background, agent!!.data.description, agent!!.data.displayIcon,
@@ -200,7 +202,7 @@ fun MyTopAppBarDetail(myViewModel: MyViewModel, agent:Agente?) {
         contentColor = Color.White,
         elevation = AppBarDefaults.TopAppBarElevation,
         navigationIcon = {
-            IconButton(onClick = { Routes.SearchScreen.route }) {
+            IconButton(onClick = { dispatcher?.onBackPressed() }) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },

@@ -1,5 +1,6 @@
 package com.example.apilist.view
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -59,13 +60,14 @@ fun FavouritesScreen(navController: NavController, myViewModel: MyViewModel) {
 
 @Composable
 fun MyTopAppBarFav(){
+    val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     TopAppBar(
         title = {  },
         backgroundColor = Color(222,48,79),
         contentColor = Color.White,
         elevation = AppBarDefaults.TopAppBarElevation,
         navigationIcon = {
-            IconButton(onClick = { Routes.DetailScreen.route }) {
+            IconButton(onClick = { dispatcher?.onBackPressed() }) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },
