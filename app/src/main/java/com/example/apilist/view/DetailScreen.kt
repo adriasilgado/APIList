@@ -168,10 +168,9 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
 fun MyTopAppBarDetail(myViewModel: MyViewModel, agent:Agente?) {
     val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val esFav:Boolean by myViewModel.isFavourite.observeAsState(false)
-    println(agent)
     var agente = Data(agent!!.data.abilities,agent!!.data.background, agent!!.data.description, agent!!.data.displayIcon,
         agent!!.data.displayName, agent!!.data.fullPortrait, agent!!.data.isPlayableCharacter, agent!!.data.role, agent!!.data.uuid)
-    if (agente != null) println("agente: $agente")
+    if (agente != null)
     myViewModel.isFavorite(agente)
     TopAppBar(
         title = {  },

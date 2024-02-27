@@ -2,6 +2,7 @@ package com.example.apilist.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,8 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -39,6 +42,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarColors
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -154,7 +159,8 @@ fun CharacterItem(character: Data, navController: NavController) {
 
 @Composable
 fun MyTopAppBar(myViewModel: MyViewModel) {
-    var esconder by remember { mutableStateOf(true) }
+    val esconder by myViewModel.esconder.observeAsState(true)
+    println(esconder)
     TopAppBar(
         title = {  },
         backgroundColor = Color(222,48,79),
@@ -164,7 +170,7 @@ fun MyTopAppBar(myViewModel: MyViewModel) {
             if (!esconder) {
                 MySearchBar(myViewModel)
             }
-            IconButton(onClick = { esconder = !esconder }) {
+            IconButton(onClick = { myViewModel.changeEsconder() }) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
             }
         },
@@ -179,7 +185,6 @@ fun MyBottomBar(navController: NavController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         bottomIcons.forEach{
-            println("RUTA: $currentRoute")
             BottomNavigationItem(
                 icon = { Icon(it.icon, contentDescription = it.label) },
                 label = { Text(it.label, fontFamily = valo, color = Color.Black)},
@@ -205,11 +210,19 @@ fun MySearchBar (myViewModel: MyViewModel) {
         query = searchText,
         onQueryChange = { myViewModel.onSearchTextChange(it) },
         onSearch = { myViewModel.onSearchTextChange(it) },
-        active = true,
+        active = false,
         leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")},
         placeholder = { Text("What are you looking for?") },
-        onActiveChange = {}, modifier = Modifier
-            .fillMaxHeight(0.8f)
+        onActiveChange = {},
+        colors = SearchBarDefaults.colors(
+            containerColor = Color(194, 23, 54, 255),
+            inputFieldColors = TextFieldDefaults.textFieldColors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
+        ),
+        modifier = Modifier
+            .fillMaxHeight(0.95f)
             .fillMaxWidth(0.85f)
             .clip(CircleShape)) {
     }

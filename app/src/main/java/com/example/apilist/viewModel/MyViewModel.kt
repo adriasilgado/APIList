@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Collections.addAll
 
 class MyViewModel: ViewModel() {
     private val repository = Repository()
@@ -27,6 +28,10 @@ class MyViewModel: ViewModel() {
     val favourites = _favourites
     private val _searchText = MutableLiveData<String>()
     val searchText = _searchText
+    private val _charactersAPI = MutableLiveData<ValorantAgentes>()
+    val charactersAPI = _charactersAPI
+    private val _esconder = MutableLiveData<Boolean>()
+    val esconder = _esconder
 
     fun getCharacters(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -34,6 +39,7 @@ class MyViewModel: ViewModel() {
             withContext(Dispatchers.Main) {
                 if(response.isSuccessful){
                     _characters.value = response.body()
+                    _charactersAPI.value = _characters.value
                     _loading.value = false
                 }
                 else{
@@ -93,7 +99,15 @@ class MyViewModel: ViewModel() {
         _isFavourite.value = !_isFavourite.value!!
     }
 
-    fun onSearchTextChange(it:String) {
+    fun onSearchTextChange(nom:String) {
+        _searchText.value = nom
+        var agentesFiltrados:ValorantAgentes =
+            ValorantAgentes(_charactersAPI.value!!.data.filter { it.displayName.lowercase().contains(nom.lowercase())}, 0)
+        _characters.value = agentesFiltrados
+        if (nom.isEmpty()) _characters.value = _charactersAPI.value
+    }
 
+    fun changeEsconder() {
+        _esconder.value =
     }
 }
