@@ -80,9 +80,7 @@ import com.example.apilist.navigation.Routes
 import com.example.apilist.valo
 import com.example.apilist.viewModel.MyViewModel
 
-@OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class
-)
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyViewModel) {
     myViewModel.getCharacter(uuid)
