@@ -78,7 +78,8 @@ fun SearchScreen(navController: NavController, myViewModel: MyViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)) {
+                .padding(paddingValues)
+                .background(Color(33, 48, 79))) {
             MyRecyclerView(navController, myViewModel)
         }
     }
@@ -148,7 +149,8 @@ fun CharacterItem(character: Data, navController: NavController) {
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        fontFamily = valo
+                        fontFamily = valo,
+                        color = Color.White
                     )
                 }
             }
@@ -212,7 +214,7 @@ fun MySearchBar (myViewModel: MyViewModel) {
         onSearch = { myViewModel.onSearchTextChange(it) },
         active = false,
         leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")},
-        placeholder = { Text("What are you looking for?") },
+        placeholder = { Text("What agent are you looking for?") },
         onActiveChange = {},
         colors = SearchBarDefaults.colors(
             containerColor = Color(194, 23, 54, 255),

@@ -1,6 +1,7 @@
 package com.example.apilist.view
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -37,7 +38,8 @@ fun FavouritesScreen(navController: NavController, myViewModel: MyViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)) {
+                .padding(paddingValues)
+                .background(Color(33, 48, 79))) {
             val showLoading: Boolean by myViewModel.loading.observeAsState(true)
             val characters: MutableList<Data> by myViewModel.favourites.observeAsState(mutableListOf())
             myViewModel.getFavourites()

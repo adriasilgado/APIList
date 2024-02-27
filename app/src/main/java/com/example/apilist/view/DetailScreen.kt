@@ -3,6 +3,7 @@ package com.example.apilist.view
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Box
@@ -39,7 +40,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,6 +51,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.apilist.R
 import com.example.apilist.arabic
 import com.example.apilist.model.Agente
 import com.example.apilist.model.Data
@@ -68,7 +72,7 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
                     .padding(paddingValues)) {
                 if (agent != null) {
                     Column (horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-                        .background(Color(255 - 222, 48, 79))
+                        .background(Color(33, 48, 79))
                         .fillMaxSize()
                     ){
                         Box(
@@ -143,7 +147,9 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
                                             Text(
                                                 text = agent!!.data.abilities[habilidad].description,
                                                 overflow = TextOverflow.Ellipsis,
-                                                modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp),
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 6.dp),
                                                 textAlign = TextAlign.Center
                                             )
                                         }
@@ -188,8 +194,9 @@ fun MyTopAppBarDetail(myViewModel: MyViewModel, agent:Agente?) {
                 if (esFav) myViewModel.saveAsFavourite(agente)
                 else myViewModel.deleteFavourite(agente)
             }) {
-                Icon(imageVector = if (esFav) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = "Like")
+                Image(painter = painterResource(id = if (esFav) R.drawable.logoentero else R.drawable.logoborde),
+                    contentDescription = "Like",
+                    colorFilter = ColorFilter.tint(Color.White))
             }
         },
         modifier = Modifier.statusBarsPadding()
