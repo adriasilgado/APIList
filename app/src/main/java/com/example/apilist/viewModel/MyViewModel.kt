@@ -107,7 +107,7 @@ class MyViewModel: ViewModel() {
         if (nom.isEmpty()) _characters.value = _charactersAPI.value
     }
 
-    fun changeEsconder() {
-        _esconder.value =
+    fun changeEsconder(newEsconder:Boolean) {
+        _esconder.value = newEsconder != true
     }
 }

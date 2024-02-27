@@ -170,7 +170,7 @@ fun MyTopAppBar(myViewModel: MyViewModel) {
             if (!esconder) {
                 MySearchBar(myViewModel)
             }
-            IconButton(onClick = { myViewModel.changeEsconder() }) {
+            IconButton(onClick = { myViewModel.changeEsconder(esconder) }) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
             }
         },
