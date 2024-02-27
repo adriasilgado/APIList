@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.example.apilist.api.Repository
 import com.example.apilist.model.Agente
 import com.example.apilist.model.Data
-import com.example.apilist.model.Role
 import com.example.apilist.model.ValorantAgentes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Collections.addAll
 
 class MyViewModel: ViewModel() {
     private val repository = Repository()
@@ -101,7 +99,7 @@ class MyViewModel: ViewModel() {
 
     fun onSearchTextChange(nom:String) {
         _searchText.value = nom
-        var agentesFiltrados:ValorantAgentes =
+        var agentesFiltrados =
             ValorantAgentes(_charactersAPI.value!!.data.filter { it.displayName.lowercase().contains(nom.lowercase())}, 0)
         _characters.value = agentesFiltrados
         if (nom.isEmpty()) _characters.value = _charactersAPI.value
