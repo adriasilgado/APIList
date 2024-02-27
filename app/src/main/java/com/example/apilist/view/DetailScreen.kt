@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -133,24 +134,25 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
                         )
                         val state = rememberLazyListState()
                         LazyRow (state = state, flingBehavior = rememberSnapFlingBehavior(lazyListState = state)){
-                            items(4) {
+                            items(4) {habilidad ->
                                 Card(
                                     colors = CardDefaults.cardColors(Color.Transparent),
+                                    border = BorderStroke(2.dp, Color.LightGray),
                                     modifier = Modifier
                                         .fillMaxHeight()
-                                        .width(400.dp)
-                                        .padding(12.dp))
+                                        .width(380.dp)
+                                        .padding(1.dp))
                                 {
                                     Box(
                                         modifier = Modifier.fillMaxSize()
                                     ) {
-                                        Column(
+                                        LazyColumn(
                                             modifier = Modifier
                                                 .fillMaxSize(),
                                             horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
+                                        ) { items(1) {
                                             GlideImage(
-                                                model = agent!!.data.abilities[it].displayIcon,
+                                                model = agent!!.data.abilities[habilidad].displayIcon,
                                                 contentDescription = "Icon Ability",
                                                 contentScale = ContentScale.Crop,
                                                 modifier = Modifier
@@ -159,17 +161,19 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
                                                     .padding(horizontal = 142.dp)
                                             )
                                             Text(
-                                                text = agent!!.data.abilities[it].displayName,
+                                                text = agent!!.data.abilities[habilidad].displayName,
                                                 style = MaterialTheme.typography.bodyLarge,
                                                 textAlign = TextAlign.Center,
                                                 fontFamily = valo,
                                                 modifier = Modifier.padding(top = 4.dp),
                                                 fontSize = 20.sp)
                                             Text(
-                                                text = agent!!.data.abilities[it].description,
+                                                text = agent!!.data.abilities[habilidad].description,
                                                 overflow = TextOverflow.Ellipsis,
-                                                modifier = Modifier.fillMaxWidth()
+                                                modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp),
+                                                textAlign = TextAlign.Center
                                             )
+                                        }
                                         }
                                     }
                                 }
