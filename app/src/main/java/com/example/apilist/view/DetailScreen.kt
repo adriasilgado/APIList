@@ -174,31 +174,32 @@ fun MyTopAppBarDetail(myViewModel: MyViewModel, agent:Agente?) {
     val esFav:Boolean by myViewModel.isFavourite.observeAsState(false)
     var agente = Data(agent!!.data.abilities,agent!!.data.background, agent!!.data.description, agent!!.data.displayIcon,
         agent!!.data.displayName, agent!!.data.fullPortrait, agent!!.data.isPlayableCharacter, agent!!.data.role, agent!!.data.uuid)
-    if (agente != null)
-    myViewModel.isFavorite(agente)
-    TopAppBar(
-        title = {  },
-        backgroundColor = Color(222,48,79),
-        contentColor = Color.White,
-        elevation = AppBarDefaults.TopAppBarElevation,
-        navigationIcon = {
-            IconButton(onClick = { dispatcher?.onBackPressed() }) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-            }
-        },
-        actions = {
-            IconButton(onClick = {
-                myViewModel.changeFavourite()
-                if (esFav) myViewModel.saveAsFavourite(agente)
-                else myViewModel.deleteFavourite(agente)
-            }) {
-                Image(painter = painterResource(id = if (esFav) R.drawable.logoentero else R.drawable.logoborde),
-                    contentDescription = "Like",
-                    colorFilter = ColorFilter.tint(Color.White))
-            }
-        },
-        modifier = Modifier.statusBarsPadding()
-    )
+    if (agente != null) {
+        myViewModel.isFavorite(agente)
+        TopAppBar(
+            title = {  },
+            backgroundColor = Color(222,48,79),
+            contentColor = Color.White,
+            elevation = AppBarDefaults.TopAppBarElevation,
+            navigationIcon = {
+                IconButton(onClick = { dispatcher?.onBackPressed() }) {
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
+            },
+            actions = {
+                IconButton(onClick = {
+                    myViewModel.changeFavourite()
+                    if (esFav) myViewModel.saveAsFavourite(agente)
+                    else myViewModel.deleteFavourite(agente)
+                }) {
+                    Image(painter = painterResource(id = if (esFav) R.drawable.logoentero else R.drawable.logobordegordo),
+                        contentDescription = "Like",
+                        colorFilter = ColorFilter.tint(Color.White))
+                }
+            },
+            modifier = Modifier.statusBarsPadding()
+        )
+    }
 }
 
 @Composable
