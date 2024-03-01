@@ -98,7 +98,8 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
                             textAlign = TextAlign.Center,
                             fontFamily = valo,
                             modifier = Modifier.padding(top = 4.dp),
-                            fontSize = 30.sp
+                            fontSize = 30.sp,
+                            color = Color.White
                         )
                         Text(
                             text = agent!!.data.description,
@@ -106,6 +107,7 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
                             textAlign = TextAlign.Center,
                             fontFamily = arabic,
                             fontSize = 17.sp,
+                            color = Color.White
                         )
                         val state = rememberLazyListState()
                         LazyRow (state = state, flingBehavior = rememberSnapFlingBehavior(lazyListState = state)){
@@ -141,14 +143,16 @@ fun DetailScreen(uuid: String, navController: NavController, myViewModel: MyView
                                                 textAlign = TextAlign.Center,
                                                 fontFamily = valo,
                                                 modifier = Modifier.padding(top = 4.dp),
-                                                fontSize = 20.sp)
+                                                fontSize = 20.sp,
+                                                color = Color.White)
                                             Text(
                                                 text = agent!!.data.abilities[habilidad].description,
                                                 overflow = TextOverflow.Ellipsis,
                                                 modifier = Modifier
                                                     .fillMaxWidth()
                                                     .padding(horizontal = 6.dp),
-                                                textAlign = TextAlign.Center
+                                                textAlign = TextAlign.Center,
+                                                color = Color.White
                                             )
                                         }
                                         }
